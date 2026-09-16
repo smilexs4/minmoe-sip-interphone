@@ -1,0 +1,18 @@
+services:
+  asterisk:
+    build: .
+    container_name: aer-asterisk
+    # Host networking is the simplest way to get SIP/RTP working correctly
+    # without dealing with per-port NAT mapping. Requires a Linux host.
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - HIKVISION_IP=${HIKVISION_IP}
+      - HIKVISION_USER=${HIKVISION_USER}
+      - HIKVISION_PASS=${HIKVISION_PASS}
+      - HIKVISION_DOOR_PATH=${HIKVISION_DOOR_PATH:-/ISAPI/AccessControl/RemoteControl/door/1}
+    volumes:
+      - asterisk-log:/var/log/asterisk
+
+volumes:
+  asterisk-log:
